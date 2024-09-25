@@ -1,6 +1,8 @@
 import pandas as pd
 import re
 
+
+
 df= pd.read_csv("combined_file.csv")
 pd.options.display.max_rows=50999
 # for i in df['Title'].unique():
@@ -11,6 +13,12 @@ pd.options.display.max_rows=50999
 #         print(i)
 # import pdb
 # pdb.set_trace()
+
+df['Experience'] = df['Experience'].fillna('NaN')
+
+# Fill 'Timings' with 'Not Provided' or any other relevant information
+df['Timings'] = df['Timings'].fillna('NaN')
+
 title_mappings = {
     r'developer|software|python|application|it|ai/ml|data engineer|cloud|oracle|saas|machine|web|linux|devops|data scientist': 'Software Developer',
     r'business': 'Business Development',
@@ -51,6 +59,42 @@ title_mappings = {
     r'Data Science,Analyst': 'software developer',
     r'director': 'Director',
     r'engineer': 'Engineer',
+     r'manager': 'Manager',
+    r'Data Sciece': 'software developer',
+    r'Data': 'software developer',
+    r'director': 'Director',
+    r'engineer': 'Engineer',
+    r'Human Resource': 'HR',
+    r'Insurance': 'Insurance',
+    r'Finance & Accounting ': 'F & A',
+    r'Governance': 'Corporate Governance',
+    r'PE-SECTION': 'Engineer',
+    r'java': 'Software developer',
+    r'Cycle': 'Revenue Cycle Management (RCM)',
+    r'head': 'Head of FP&A',
+    r'Designer': 'Designer',
+    r'Surface': 'PPC Manager',
+    r'Salesforce': 'Force',
+    r'Tax': 'Tax officer',
+    r'Freelance': 'software developer',
+    r'supervising':'superviser',
+    r'Azure': 'software developer',
+    r'Financial':'Financial Management',
+    r'Delivery': 'Delivery Department',
+    r'Analyst': 'Software developer',
+    r'Consultant': 'Consultant Service',
+    r'Chief': 'Officer',
+    r'Investor': 'Finance',
+    r'Trainer': 'Trainer',
+    r'Investment':'Finance',
+    r'OPERATION': 'Hospitality',
+    r'Principle': 'Manager',
+    r'Professor ': 'Law department',
+    r'Technician': 'Engineer',
+    r'Full Stack': 'software developer',
+    r'FInance': 'Finance',
+    r'agency': 'Agency',
+    r'UI/UX ': 'software developer',
     
 }
 
@@ -64,4 +108,4 @@ def clean_title(title):
 
 
 df['title'] = df['title'].apply(clean_title)
-print(df['title'].tail(10000))
+df.to_csv("combined_new.csv")
