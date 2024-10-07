@@ -5,7 +5,6 @@ import spacy
 # Load the SpaCy model
 nlp = spacy.load('en_core_web_sm')
 
-# Define the list of skills
 skills_list = [
     "Python", "Java", "SQL", "JavaScript", "HTML", "CSS", "AWS", "Node.js", "Node", 
     "Docker", "Kubernetes", "Angular", "React", "Machine Learning", "DevOps", "Web APIs",
@@ -23,26 +22,18 @@ skills_list = [
 ]
 
 # Load your CSV file
-df = pd.read_csv("customise2.csv")
+df = pd.read_csv("customise4.csv")
 
-# Fill missing values
-df['Experience'] = df['Experience'].fillna('NaN')
-df['Timings'] = df['Timings'].fillna('NaN')
-df['Salary'] = df['Salary'].fillna('NaN')
-df['Requirements'] = df['Requirements'].fillna('NaN')
-df['extracted_skills'] = df['extracted_skills'].fillna('NaN')
 
-# Ensure title and company names are in uppercase
-df['title'] = df['title'].str.upper()
-df['company-name'] = df['company-name'].str.upper()
-
-# Replace 'Permanent' with 'Full-time' in the 'Timings' column
-df['Timings'] = df['Timings'].replace('Permanent', 'Full-time')
-
-# Title mappings dictionary (if needed)
 title_mappings = {
     # Your existing title mappings here...
 }
+
+import pdb 
+
+pdb.set_trace()
+
+print(title_mappings)
 
 # Function to clean the title using the dictionary
 def clean_title(title):

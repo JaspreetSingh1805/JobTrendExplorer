@@ -1,27 +1,48 @@
-import matplotlib.pyplot as plt
 import pandas as pd
 
 # Load the CSV file
-df = pd.read_csv("customise2.csv")
+df = pd.read_csv("new1location.csv")
 
-# Split the skills into individual skills
-# all_skills = df['extracted_skills'].str.split(',').explode().str.strip()
-all_skills = df['company-name'].str.split(',').explode().str.strip()
+# Ensure 'Capital_Cities' and 'title' columns are clean and have proper values
+df['Capital_Cities'] = df['Capital_Cities'].fillna('Not a Capital')
+df['title'] = df['title'].fillna('Unknown')
 
-# Get the top 20 skills by frequency
-top_20_skills = all_skills.value_counts().nlargest(20)
+# Exclude rows where the city is "Not a Capital"
+filtered_df = df[df['Capital_Cities'] != 'Not a Capital']
 
-# Plot the data
-top_20_skills.plot(kind='bar', figsize=(15, 6), color='skyblue')
+print(filtered_df)
 
-# Set the labels and title
-plt.title('Top 20 Companies name by Frequency')
-plt.xlabel('Company-name')
-plt.ylabel('Count')
-plt.xticks(rotation=45)
+# Group by 'Capital_Cities' and 'title' and count the occurrences
+city_job_counts = filtered_df.groupby(['Capital_Cities', 'title']).size().reset_index(name='count')
+
+print(city_job_counts)
+
+# For each city, find the job with the maximum count
+most_common_jobs = city_job_counts.loc[city_job_counts.groupby('Capital_Cities')['count'].idxmax()]
+
+# Display the most common job in each city
+print(most_common_jobs)
+
+# Save the result to a CSV file if needed
+most_common_jobs.to_csv("most_common_jobs_in_cities.csv", index=False)
+
+# Plotting the most common job in each city (optional)
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(15, 6))
+most_common_jobs.plot(kind='barh', x='Capital_Cities', y='count', color='skyblue', legend=False)
+
+font1 = {'family': 'serif', 'color': 'blue', 'size': 20}
+font2 = {'family': 'serif', 'color': 'darkred', 'size': 15}
+
+# Set labels and title
+plt.title('Most Common Jobs in Each City', fontdict=font1)
+plt.xlabel('Number of Jobs', fontdict=font2)
+plt.ylabel('City', fontdict=font2)
 plt.tight_layout()
+
+# Add grid for readability
+plt.grid(color='green', linestyle='--', linewidth=0.5)
 
 # Show the plot
 plt.show()
-
-
